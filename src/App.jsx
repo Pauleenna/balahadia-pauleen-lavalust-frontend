@@ -5,7 +5,6 @@ import "./App.css";
 const BRAND = "Binderhaus";
 const TAGLINE = "Every product has a place.";
 const emptyForm = { product_name: "", description: "", price: "", quantity: "" };
-const SWATCHES = ["#ff7a59", "#2ec4b6", "#ffbf47", "#7c6cf0", "#ef6f9b", "#4ea8de"];
 
 const peso = (n) =>
   "₱" +
@@ -20,15 +19,16 @@ const errorText = (err) => {
   return data?.error || err.message || "Something went wrong.";
 };
 
-function Logo({ size = 36 }) {
+function Logo({ size = 34 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
-      <rect width="40" height="40" rx="11" fill="#1f2a44" />
-      <rect x="8" y="9" width="7" height="12" rx="2" fill="#ff7a59" />
-      <rect x="17" y="12" width="7" height="9" rx="2" fill="#ffbf47" />
-      <rect x="26" y="7" width="6" height="14" rx="2" fill="#2ec4b6" />
-      <rect x="6" y="24" width="28" height="3.5" rx="1.75" fill="#fff8f0" />
-      <rect x="10" y="30" width="20" height="3" rx="1.5" fill="#fff8f0" opacity=".5" />
+      <rect x="7" y="3" width="27" height="34" rx="5" fill="#b6f26b" />
+      <rect x="7" y="3" width="8" height="34" rx="4" fill="#2f9e63" />
+      <circle cx="11" cy="12" r="2" fill="#12372a" />
+      <circle cx="11" cy="20" r="2" fill="#12372a" />
+      <circle cx="11" cy="28" r="2" fill="#12372a" />
+      <rect x="19" y="12" width="11" height="3" rx="1.5" fill="#12372a" />
+      <rect x="19" y="19" width="8" height="3" rx="1.5" fill="#12372a" opacity=".55" />
     </svg>
   );
 }
@@ -83,134 +83,105 @@ function Auth({ onLogin }) {
 
   return (
     <div className="auth">
-      <aside className="auth-art">
-        <div className="brand light">
-          <Logo />
-          <span>{BRAND}</span>
+      <div className="binder">
+        <div className="binder-tabs">
+          <button type="button" className={!isSignup ? "btab active" : "btab"} onClick={() => switchMode("login")}>
+            Sign in
+          </button>
+          <button type="button" className={isSignup ? "btab active" : "btab"} onClick={() => switchMode("signup")}>
+            Sign up
+          </button>
         </div>
-        <div className="art-copy">
-          <h2>{TAGLINE}</h2>
-          <p>Keep every product, price and stock count in one tidy place.</p>
-        </div>
-        <div className="shelf-art" aria-hidden="true">
-          <div className="shelf-row">
-            <i style={{ height: 70, background: "#ff7a59" }} />
-            <i style={{ height: 52, background: "#ffbf47" }} />
-            <i style={{ height: 84, background: "#2ec4b6" }} />
-            <i style={{ height: 60, background: "#7c6cf0" }} />
-          </div>
-          <div className="plank" />
-          <div className="shelf-row">
-            <i style={{ height: 48, background: "#ef6f9b" }} />
-            <i style={{ height: 76, background: "#4ea8de" }} />
-            <i style={{ height: 56, background: "#ffbf47" }} />
-          </div>
-          <div className="plank" />
-        </div>
-      </aside>
 
-      <main className="auth-form-side">
-        <form className="auth-card" onSubmit={submit}>
-          <div className="brand mobile-only">
-            <Logo />
-            <span>{BRAND}</span>
+        <form className="sheet" onSubmit={submit}>
+          <div className="rings" aria-hidden="true">
+            <span /><span /><span /><span /><span />
           </div>
 
-          <div className="tabs" role="tablist">
-            <button type="button" className={!isSignup ? "tab active" : "tab"} onClick={() => switchMode("login")}>
-              Sign in
-            </button>
-            <button type="button" className={isSignup ? "tab active" : "tab"} onClick={() => switchMode("signup")}>
-              Sign up
-            </button>
-          </div>
+          <div className="sheet-body">
+            <div className="brand">
+              <Logo />
+              <span>{BRAND}</span>
+            </div>
 
-          <h1>{isSignup ? "Create your account" : "Welcome back"}</h1>
-          <p className="sub">
-            {isSignup ? "Takes less than a minute. Then you're in." : "Sign in to manage your products."}
-          </p>
+            <h1>{isSignup ? "Open a new binder" : "Welcome back"}</h1>
+            <p className="muted">
+              {isSignup ? "Create an account to start filing products." : "Sign in to open your inventory."}
+            </p>
 
-          <label>{isSignup ? "Username" : "Username or email"}</label>
-          <input
-            name="username"
-            value={form.username}
-            onChange={change}
-            placeholder={isSignup ? "e.g. pauleen" : "Username or email"}
-            autoComplete="username"
-            required
-          />
-
-          {isSignup && (
-            <>
-              <label>Email</label>
-              <input
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={change}
-                placeholder="you@example.com"
-                autoComplete="email"
-                required
-              />
-            </>
-          )}
-
-          <label>Password</label>
-          <div className="pw">
+            <label>{isSignup ? "Username" : "Username or email"}</label>
             <input
-              name="password"
-              type={showPw ? "text" : "password"}
-              value={form.password}
+              name="username"
+              value={form.username}
               onChange={change}
-              placeholder={isSignup ? "At least 8 characters" : "Your password"}
-              autoComplete={isSignup ? "new-password" : "current-password"}
+              placeholder={isSignup ? "Pick a username" : "Username or email"}
+              autoComplete="username"
               required
             />
-            <button type="button" className="pw-toggle" onClick={() => setShowPw(!showPw)}>
-              {showPw ? "Hide" : "Show"}
-            </button>
-          </div>
 
-          {isSignup && (
-            <>
-              <label>Confirm password</label>
+            {isSignup && (
+              <>
+                <label>Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={change}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  required
+                />
+              </>
+            )}
+
+            <label>Password</label>
+            <div className="pw">
               <input
-                name="confirm"
+                name="password"
                 type={showPw ? "text" : "password"}
-                value={form.confirm}
+                value={form.password}
                 onChange={change}
-                placeholder="Type it again"
-                autoComplete="new-password"
+                placeholder={isSignup ? "At least 8 characters" : "Your password"}
+                autoComplete={isSignup ? "new-password" : "current-password"}
                 required
               />
-            </>
-          )}
+              <button type="button" className="pw-toggle" onClick={() => setShowPw(!showPw)}>
+                {showPw ? "Hide" : "Show"}
+              </button>
+            </div>
 
-          {error && <p className="alert error">{error}</p>}
+            {isSignup && (
+              <>
+                <label>Confirm password</label>
+                <input
+                  name="confirm"
+                  type={showPw ? "text" : "password"}
+                  value={form.confirm}
+                  onChange={change}
+                  placeholder="Type it again"
+                  autoComplete="new-password"
+                  required
+                />
+              </>
+            )}
 
-          <button className="btn primary full" disabled={loading}>
-            {loading
-              ? "Please wait… (server may be waking up)"
-              : isSignup
-              ? "Create account"
-              : "Sign in"}
-          </button>
+            {error && <p className="notice error">{error}</p>}
 
-          <p className="switch">
-            {isSignup ? "Already have an account? " : "New to Binderhaus? "}
-            <button type="button" className="link" onClick={() => switchMode(isSignup ? "login" : "signup")}>
-              {isSignup ? "Sign in" : "Create one"}
+            <button className="btn solid block" disabled={loading}>
+              {loading ? "One moment… (server may be waking up)" : isSignup ? "Create account" : "Sign in"}
             </button>
-          </p>
+          </div>
         </form>
-      </main>
+
+        <p className="auth-tag">{TAGLINE}</p>
+      </div>
     </div>
   );
 }
 
-/* ------------------------------ Add / Edit modal ------------------------------ */
+/* ------------------------------ Add / Edit drawer ------------------------------ */
 
-function ProductModal({ product, onClose, onSaved }) {
+function Drawer({ product, onClose, onSaved }) {
   const editing = !!product;
   const [form, setForm] = useState(
     product
@@ -237,7 +208,7 @@ function ProductModal({ product, onClose, onSaved }) {
       } else {
         await api.post("/api/products", form);
       }
-      onSaved(editing ? "Product updated." : "Product added.");
+      onSaved(editing ? "Changes saved." : "Product filed.");
     } catch (err) {
       setError(errorText(err));
       setSaving(false);
@@ -245,88 +216,63 @@ function ProductModal({ product, onClose, onSaved }) {
   };
 
   return (
-    <div className="overlay" onClick={onClose}>
-      <form className="modal" onClick={(e) => e.stopPropagation()} onSubmit={submit}>
-        <h2>{editing ? "Edit product" : "Add a product"}</h2>
-        <p className="sub">{editing ? "Update the details below." : "Add something new to your inventory."}</p>
-
-        <label>Product name</label>
-        <input name="product_name" value={form.product_name} onChange={change} placeholder="e.g. Banana chips" required />
-
-        <label>Description</label>
-        <input name="description" value={form.description} onChange={change} placeholder="Optional" />
-
-        <div className="two">
+    <div className="scrim" onClick={onClose}>
+      <aside className="drawer" onClick={(e) => e.stopPropagation()}>
+        <div className="drawer-head">
           <div>
-            <label>Price (₱)</label>
-            <input name="price" type="number" step="0.01" min="0" value={form.price} onChange={change} placeholder="0.00" required />
+            <h2>{editing ? "Edit product" : "New product"}</h2>
+            <p className="muted">{editing ? `Editing #${product.id}` : "File a new item in your inventory."}</p>
           </div>
-          <div>
-            <label>Quantity</label>
-            <input name="quantity" type="number" min="0" value={form.quantity} onChange={change} placeholder="0" required />
-          </div>
-        </div>
-
-        {error && <p className="alert error">{error}</p>}
-
-        <div className="modal-actions">
-          <button type="button" className="btn ghost" onClick={onClose}>
-            Cancel
-          </button>
-          <button className="btn primary" disabled={saving}>
-            {saving ? "Saving…" : editing ? "Save changes" : "Add product"}
+          <button type="button" className="x" onClick={onClose} aria-label="Close">
+            ✕
           </button>
         </div>
-      </form>
+
+        <form onSubmit={submit}>
+          <label>Product name</label>
+          <input name="product_name" value={form.product_name} onChange={change} placeholder="e.g. Coconut jam" required />
+
+          <label>Description</label>
+          <input name="description" value={form.description} onChange={change} placeholder="Optional" />
+
+          <div className="two">
+            <div>
+              <label>Price (₱)</label>
+              <input name="price" type="number" step="0.01" min="0" value={form.price} onChange={change} placeholder="0.00" required />
+            </div>
+            <div>
+              <label>Quantity</label>
+              <input name="quantity" type="number" min="0" value={form.quantity} onChange={change} placeholder="0" required />
+            </div>
+          </div>
+
+          {error && <p className="notice error">{error}</p>}
+
+          <div className="drawer-actions">
+            <button type="button" className="btn line" onClick={onClose}>
+              Cancel
+            </button>
+            <button className="btn solid" disabled={saving}>
+              {saving ? "Saving…" : editing ? "Save changes" : "File product"}
+            </button>
+          </div>
+        </form>
+      </aside>
     </div>
   );
 }
 
-/* ------------------------------ Delete confirm ------------------------------ */
+/* --------------------------------- Inventory --------------------------------- */
 
-function ConfirmDelete({ product, onClose, onDeleted, onError }) {
-  const [busy, setBusy] = useState(false);
-
-  const go = async () => {
-    setBusy(true);
-    try {
-      await api.delete(`/api/products/${product.id}`);
-      onDeleted();
-    } catch (err) {
-      onError(errorText(err));
-    }
-  };
-
-  return (
-    <div className="overlay" onClick={onClose}>
-      <div className="modal small" onClick={(e) => e.stopPropagation()}>
-        <h2>Delete this product?</h2>
-        <p className="sub">
-          <strong>{product.product_name}</strong> will be removed from your inventory. This can't be undone.
-        </p>
-        <div className="modal-actions">
-          <button className="btn ghost" onClick={onClose}>
-            Keep it
-          </button>
-          <button className="btn danger" onClick={go} disabled={busy}>
-            {busy ? "Deleting…" : "Yes, delete"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* --------------------------------- Products --------------------------------- */
-
-function Products({ user, onLogout }) {
+function Inventory({ user, onLogout }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [search, setSearch] = useState("");
-  const [modal, setModal] = useState(null); // null | { product: obj|null }
-  const [deleting, setDeleting] = useState(null);
+  const [drawer, setDrawer] = useState(null); // null | { product: obj|null }
+  const [confirmId, setConfirmId] = useState(null);
+  const [busyId, setBusyId] = useState(null);
 
   const load = async () => {
     try {
@@ -346,147 +292,185 @@ function Products({ user, onLogout }) {
 
   useEffect(() => {
     if (!toast) return;
-    const t = setTimeout(() => setToast(""), 2800);
+    const t = setTimeout(() => setToast(""), 2600);
     return () => clearTimeout(t);
   }, [toast]);
 
   const stats = useMemo(() => {
     const units = products.reduce((s, p) => s + Number(p.quantity || 0), 0);
     const value = products.reduce((s, p) => s + Number(p.price || 0) * Number(p.quantity || 0), 0);
-    return { count: products.length, units, value };
+    const low = products.filter((p) => Number(p.quantity) <= 5).length;
+    const max = Math.max(1, ...products.map((p) => Number(p.quantity || 0)));
+    return { count: products.length, units, value, low, max };
   }, [products]);
 
   const shown = products.filter((p) =>
     `${p.product_name} ${p.description || ""}`.toLowerCase().includes(search.trim().toLowerCase())
   );
 
-  const stockBadge = (q) => {
-    if (Number(q) === 0) return <span className="badge out">Out of stock</span>;
-    if (Number(q) <= 5) return <span className="badge low">Low stock</span>;
-    return <span className="badge ok">In stock</span>;
+  const remove = async (p) => {
+    setBusyId(p.id);
+    try {
+      await api.delete(`/api/products/${p.id}`);
+      setConfirmId(null);
+      setToast("Product removed.");
+      load();
+    } catch (err) {
+      setError(errorText(err));
+      setConfirmId(null);
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const level = (q) => {
+    q = Number(q);
+    if (q === 0) return "out";
+    if (q <= 5) return "low";
+    return "ok";
   };
 
   return (
-    <div className="app">
-      <nav className="topbar">
-        <div className="brand">
+    <div className="shell">
+      <aside className="side">
+        <div className="brand light">
           <Logo />
           <span>{BRAND}</span>
         </div>
-        <div className="topbar-right">
-          <span className="chip">
+
+        <nav className="side-nav">
+          <span className="nav-item active">▤ Inventory</span>
+        </nav>
+
+        <div className="side-foot">
+          <div className="who">
             <b>{(user?.username || "U").charAt(0).toUpperCase()}</b>
-            {user?.username || "Signed in"}
-          </span>
-          <button className="btn ghost" onClick={onLogout}>
+            <span>{user?.username || "Signed in"}</span>
+          </div>
+          <button className="btn ghost-light" onClick={onLogout}>
             Logout
           </button>
         </div>
-      </nav>
+      </aside>
 
-      <main className="content">
-        <section className="hero">
+      <main className="main">
+        <header className="main-head">
           <div>
-            <h1>Your inventory</h1>
-            <p className="sub">{TAGLINE}</p>
+            <h1>Inventory</h1>
+            <p className="muted">{TAGLINE}</p>
           </div>
-          <button className="btn primary" onClick={() => setModal({ product: null })}>
-            + Add product
-          </button>
-        </section>
+          <div className="head-tools">
+            <input
+              className="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search products…"
+            />
+            <button className="btn solid" onClick={() => setDrawer({ product: null })}>
+              + New product
+            </button>
+          </div>
+        </header>
 
-        <section className="stats">
-          <div className="stat">
+        <section className="strip">
+          <div>
             <span>Products</span>
             <strong>{stats.count}</strong>
           </div>
-          <div className="stat">
-            <span>Units in stock</span>
+          <div>
+            <span>Units on hand</span>
             <strong>{stats.units}</strong>
           </div>
-          <div className="stat">
-            <span>Inventory value</span>
+          <div>
+            <span>Total value</span>
             <strong>{peso(stats.value)}</strong>
+          </div>
+          <div>
+            <span>Running low</span>
+            <strong className={stats.low ? "warn" : ""}>{stats.low}</strong>
           </div>
         </section>
 
-        <div className="searchbar">
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search products…"
-          />
-        </div>
+        {error && <p className="notice error">{error}</p>}
 
-        {error && <p className="alert error">{error}</p>}
-
-        {loading ? (
-          <p className="empty">Loading your inventory… (the server may be waking up)</p>
-        ) : shown.length === 0 ? (
-          <div className="empty">
-            <h3>{products.length === 0 ? "Nothing here yet" : "No matches"}</h3>
-            <p>
-              {products.length === 0
-                ? "Add your first product to get started."
-                : "Try a different search."}
-            </p>
+        <section className="ledger">
+          <div className="ledger-head">
+            <span>Product</span>
+            <span>Price</span>
+            <span>Stock</span>
+            <span />
           </div>
-        ) : (
-          <section className="grid">
-            {shown.map((p) => (
-              <article className="product" key={p.id}>
-                <div className="thumb" style={{ background: SWATCHES[p.id % SWATCHES.length] }}>
-                  {p.product_name.charAt(0).toUpperCase()}
-                </div>
-                <div className="product-body">
-                  <div className="row">
-                    <h3>{p.product_name}</h3>
-                    {stockBadge(p.quantity)}
-                  </div>
-                  <p className="desc">{p.description || "No description"}</p>
-                  <div className="row meta">
-                    <strong className="price">{peso(p.price)}</strong>
-                    <span>Qty: {p.quantity}</span>
-                  </div>
-                  <div className="card-actions">
-                    <button className="btn ghost sm" onClick={() => setModal({ product: p })}>
-                      Edit
-                    </button>
-                    <button className="btn danger-ghost sm" onClick={() => setDeleting(p)}>
-                      Delete
-                    </button>
+
+          {loading ? (
+            <p className="ledger-empty">Opening your binder… (the server may be waking up)</p>
+          ) : shown.length === 0 ? (
+            <p className="ledger-empty">
+              {products.length === 0 ? "Nothing filed yet. Add your first product." : "No products match your search."}
+            </p>
+          ) : (
+            shown.map((p) => (
+              <div className="lrow" key={p.id}>
+                <div className="cell-name">
+                  <i>{p.product_name.charAt(0).toUpperCase()}</i>
+                  <div>
+                    <strong>{p.product_name}</strong>
+                    <small>{p.description || "No description"}</small>
                   </div>
                 </div>
-              </article>
-            ))}
-          </section>
-        )}
+
+                <div className="cell-price">{peso(p.price)}</div>
+
+                <div className="cell-stock">
+                  <div className="stock-top">
+                    <span>{p.quantity} units</span>
+                    <em className={`tag ${level(p.quantity)}`}>
+                      {level(p.quantity) === "out" ? "Out" : level(p.quantity) === "low" ? "Low" : "OK"}
+                    </em>
+                  </div>
+                  <div className="bar">
+                    <div
+                      className={`fill ${level(p.quantity)}`}
+                      style={{ width: `${Math.max(4, (Number(p.quantity) / stats.max) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="cell-actions">
+                  {confirmId === p.id ? (
+                    <div className="confirm">
+                      <span>Delete?</span>
+                      <button className="btn tiny danger" onClick={() => remove(p)} disabled={busyId === p.id}>
+                        {busyId === p.id ? "…" : "Yes"}
+                      </button>
+                      <button className="btn tiny line" onClick={() => setConfirmId(null)}>
+                        No
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <button className="btn tiny line" onClick={() => setDrawer({ product: p })}>
+                        Edit
+                      </button>
+                      <button className="btn tiny danger-line" onClick={() => setConfirmId(p.id)}>
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </section>
       </main>
 
-      {modal && (
-        <ProductModal
-          product={modal.product}
-          onClose={() => setModal(null)}
+      {drawer && (
+        <Drawer
+          product={drawer.product}
+          onClose={() => setDrawer(null)}
           onSaved={(msg) => {
-            setModal(null);
+            setDrawer(null);
             setToast(msg);
             load();
-          }}
-        />
-      )}
-
-      {deleting && (
-        <ConfirmDelete
-          product={deleting}
-          onClose={() => setDeleting(null)}
-          onDeleted={() => {
-            setDeleting(null);
-            setToast("Product deleted.");
-            load();
-          }}
-          onError={(msg) => {
-            setDeleting(null);
-            setError(msg);
           }}
         />
       )}
@@ -524,5 +508,5 @@ export default function App() {
     );
   }
 
-  return <Products user={user} onLogout={logout} />;
+  return <Inventory user={user} onLogout={logout} />;
 }

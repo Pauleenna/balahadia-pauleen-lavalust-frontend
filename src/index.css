@@ -1,20 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap");
 
 :root {
-  --ink: #1f2a44;
-  --ink-soft: #5b6478;
-  --cream: #fff8f0;
-  --paper: #ffffff;
-  --line: #eadfce;
-  --coral: #ff7a59;
-  --coral-dark: #ec6544;
-  --teal: #2ec4b6;
-  --sun: #ffbf47;
-  --danger: #d94a3d;
-  --radius: 16px;
-  font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --forest: #12372a;
+  --forest-2: #1d4d3a;
+  --green: #2f9e63;
+  --mint: #e3f4e8;
+  --lime: #b6f26b;
+  --bg: #f3f6f1;
+  --ink: #14231c;
+  --muted: #66786d;
+  --line: #dce6dd;
+  --warn: #c2750a;
+  --danger: #c9402f;
+  font-family: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: var(--ink);
-  background: var(--cream);
+  background: var(--bg);
 }
 
 * { box-sizing: border-box; }
@@ -22,7 +22,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--cream);
+  background: var(--bg);
 }
 
 #root {
@@ -34,6 +34,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: "Bricolage Grotesque", Georgia, serif;
   margin: 0;
+  letter-spacing: -0.01em;
 }
